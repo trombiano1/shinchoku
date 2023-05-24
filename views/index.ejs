@@ -1,0 +1,22 @@
+<html>
+<head>
+    <title>All Codes</title>
+</head>
+<body style="font-family:serif">
+    <table>
+        <tr>
+            <th>Code</th><th>Status</th><th>Message</th>
+        </tr>
+        
+        <% for (var i = 0; i < records.length; i++) { %>
+            <tr>
+                <td><a href="/code/<%= records[i].code %>"><%= records[i].code %></a></td>
+                <td><%= records[i].status %></td>
+                <td><%= records[i].message %></td>
+            </tr>    
+        <% } %>
+    </table>
+    <br />
+    提案受け付けてます. 
+</body>
+</html>
