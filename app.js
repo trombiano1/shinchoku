@@ -68,4 +68,4 @@ app.use((req, res, next) => {
     res.writeHead(code, {'Content-Type': 'text/plain'});
 });
 
-app.listen(8000, () => console.log("Server is running ..."));
+app.listen(process.env.PORT, () => console.log("Server is running ..."));
