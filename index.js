@@ -7,7 +7,7 @@ const { parse } = require("csv-parse/sync");
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
-const data = fs.readFileSync("./codes.csv")
+const data = fs.readFileSync("codes.csv")
 const records = parse(data, { delimiter: ",", columns: true });
 const codes = records.map(item => item.code.toLowerCase());
 
@@ -68,4 +68,5 @@ app.use((req, res, next) => {
     res.writeHead(code, {'Content-Type': 'text/plain'});
 });
 
-app.listen(process.env.PORT, () => console.log("Server is running ..."));
+const port = parseInt(process.env.PORT) || 8080;
+app.listen(port, () => console.log("Server is running ..."));
