@@ -12,23 +12,23 @@ const records = parse(data, { delimiter: ",", columns: true });
 const codes = records.map(item => item.code.toLowerCase());
 
 app.get("/code/:var?", (req, res, next) => {
-    var codeStr;
+    var code_str;
     if (req.params.var === undefined) {
-        codeStr = "404";
+        code_str = "404";
     } else if (codes.includes(req.params.var)) {
-        codeStr = req.params.var;
+        code_str = req.params.var;
     } else {
-        codeStr = "404";
+        code_str = "404";
     }
-    const code = parseInt(codeStr);
-    const record = records.find(item => item.code == codeStr);
+    const code = parseInt(code_str);
+    const record = records.find(item => item.code == code_str);
     const status = record.status;
     const message = record.message;
 
     res.status(code);
     
     if (req.accepts('html')) {
-        res.render('error', { url: req.url, code: codeStr, codeMessage: `${code} ${status}`, message: message });
+        res.render('error', { url: req.url, code: code_str, codeMessage: `${code} ${status}`, message: message });
         return
     }
     
@@ -60,7 +60,7 @@ app.use((req, res, next) => {
     }
     
     if (req.accepts('json')) {
-        res.json({ error: 'Processing' });
+        res.json({ error: status});
         return;
     }
     
