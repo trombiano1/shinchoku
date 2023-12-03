@@ -24,23 +24,31 @@ app.get("/code/:var?", (req, res, next) => {
     } else {
         code_str = "404";
     }
-    displayError(code_str, req, res);
+    const of_str = req.query.of;
+    displayError(code_str, of_str, req, res);
 });
 
 app.use((req, res, next) => {
-    displayError(404, req, res);
+    const of_str = req.query.of;
+    displayError(404, of_str, req, res);
 });
 
-function displayError(code_str, req, res) {
+function displayError(code_str, of_str, req, res) {
     const code = parseInt(code_str);
     const record = records.find(item => item.code == code_str);
     const status = record.status;
-    const message = record.message;
 
     res.status(code);
     
     if (req.accepts('html')) {
-        res.render('error', { url: req.url, code: code_str, codeMessage: `${code} ${status}`, message: message });
+        if (of_str) {
+            const message_before_of = record.message_before_of;
+            const message_after_of = record.message_after_of;
+            res.render('error', { url: req.url, code: code_str, codeMessage: `${code} ${status}`, message: message_before_of + of_str + message_after_of });
+        } else {
+            const message = record.message;
+            res.render('error', { url: req.url, code: code_str, codeMessage: `${code} ${status}`, message: message });
+        }
         return
     }
     
